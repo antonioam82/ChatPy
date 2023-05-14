@@ -20,6 +20,14 @@ def main():
 
     chat(args)
 
+def typewriter(message):
+    print(Fore.GREEN)
+    for i in message:
+        sys.stdout.write(i)
+        sys.stdout.flush()
+        time.sleep(0.01)
+    print(Fore.RESET)
+
 def set_api_key(val):
     try:
         openai.api_key = val
@@ -27,8 +35,19 @@ def set_api_key(val):
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 def chat(args):
-    pass
+    while True:
+        prompt = input("\nPROMPT> ")
 
+        if prompt == "END":
+            break
+        
+        completion = openai.Completion.create(engine=args.engine,
+                                              prompt = prompt,
+                                              max_tokens=args.max_tokens)
+
+        response = str(completion.choices[0].text)
+        typewriter(response)
 
 if __name__=='__main__':
     main()
+
