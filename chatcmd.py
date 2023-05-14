@@ -17,7 +17,7 @@ def main():
     parser.add_argument('-eng','--engine',type=str,default="text-davinci-003",help="Model to use")
 
     args = parser.parse_args()
-
+    
     chat(args)
 
 def typewriter(message):
