@@ -4,6 +4,7 @@ import openai
 import time
 import os
 import sys
+import pyfiglet
 from colorama import Fore, init, Style
 import argparse
 
@@ -17,7 +18,7 @@ def main():
     parser.add_argument('-eng','--engine',type=str,default="text-davinci-003",help="Model to use")
 
     args = parser.parse_args()
-    
+
     chat(args)
 
 def typewriter(message):
@@ -35,6 +36,7 @@ def set_api_key(val):
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 def chat(args):
+    print(pyfiglet.figlet_format("ChatCMD",font="speed",justify="center"))
     while True:
         prompt = input("\nPROMPT> ")
 
@@ -44,7 +46,6 @@ def chat(args):
         completion = openai.Completion.create(engine=args.engine,
                                               prompt = prompt,
                                               max_tokens=args.max_tokens)
-
         response = str(completion.choices[0].text)
         typewriter(response)
 
