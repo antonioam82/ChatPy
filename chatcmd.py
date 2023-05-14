@@ -1,4 +1,5 @@
-#IMPORTAR LIBRERIA
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import openai
 import time
 import os
