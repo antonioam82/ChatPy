@@ -30,7 +30,7 @@ def typewriter(message):
     print(Fore.RESET)
 
 def print_title():
-    print(Fore.YELLOW)
+    print(Fore.BLUE)
     print("                                       ____ _           _    ____ __  __ ____ ")
     print("                                      / ___| |__   __ _| |_ / ___|  \/  |  _ \ ")
     print("                                     | |   | '_ \ / _` | __| |   | |\/| | | | |")
