@@ -68,6 +68,8 @@ def chat(args):
                 save_response(response)
             else:
                 print(Fore.RED+Style.BRIGHT+"No response to print"+Fore.RESET+Style.RESET_ALL)
+        elif prompt == "":
+            pass
 
         else:
             completion = openai.Completion.create(engine=args.engine,
@@ -78,5 +80,4 @@ def chat(args):
 
 if __name__=='__main__':
     main()
-
 
