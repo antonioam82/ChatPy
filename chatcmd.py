@@ -29,6 +29,14 @@ def typewriter(message):
         time.sleep(0.01)
     print(Fore.RESET)
 
+def save_response(r):
+    try:
+        with open("response.txt","w") as document:
+            document.write(r)
+        print(Fore.YELLOW+"Save document as 'response.txt'."+Fore.RESET)
+    except Exception as e:
+        print(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
+
 def print_title():
     print(Fore.BLUE)
     print("                                       ____ _           _    ____ __  __ ____ ")
@@ -47,6 +55,7 @@ def set_api_key(val):
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 def chat(args):
+    response = ""
     #print(Fore.YELLOW+pyfiglet.figlet_format("ChatCMD",justify="center")+Fore.RESET)
     print_title()
     while True:
@@ -54,12 +63,18 @@ def chat(args):
 
         if prompt == "END":
             break
-        
-        completion = openai.Completion.create(engine=args.engine,
+        elif prompt == "PRINT":
+            if response != "":
+                save_response(response)
+            else:
+                print(Fore.RED+Style.BRIGHT+"No response to print"+Fore.RESET+Style.RESET_ALL)
+
+        else:
+            completion = openai.Completion.create(engine=args.engine,
                                               prompt = prompt,
                                               max_tokens=args.max_tokens)
-        response = str(completion.choices[0].text)
-        typewriter(response)
+            response = str(completion.choices[0].text)
+            typewriter(response)
 
 if __name__=='__main__':
     main()
