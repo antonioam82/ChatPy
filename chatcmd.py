@@ -33,7 +33,7 @@ def save_response(r):
     try:
         with open("response.txt","w") as document:
             document.write(r)
-        print(Fore.YELLOW+"Save document as 'response.txt'."+Fore.RESET)
+        print(Fore.YELLOW+"Saved document as 'response.txt'."+Fore.RESET)
     except Exception as e:
         print(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
@@ -78,4 +78,5 @@ def chat(args):
 
 if __name__=='__main__':
     main()
+
 
