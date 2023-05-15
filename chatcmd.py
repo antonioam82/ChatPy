@@ -4,7 +4,7 @@ import openai
 import time
 import os
 import sys
-import pyfiglet
+#import pyfiglet
 from colorama import Fore, init, Style
 import argparse
 
@@ -29,6 +29,17 @@ def typewriter(message):
         time.sleep(0.01)
     print(Fore.RESET)
 
+def print_title():
+    print(Fore.YELLOW)
+    print("                                  ____ _           _    ____ __  __ ____ ")
+    print("                                 / ___| |__   __ _| |_ / ___|  \/  |  _ \ ")
+    print("                                | |   | '_ \ / _` | __| |   | |\/| | | | |")
+    print("                                | |___| | | | (_| | |_| |___| |  | | |_| |")
+    print("                                 \____|_| |_|\__,_|\__|\____|_|  |_|____/ ")
+    print("                                  C  O  M  P  U  T  E  R    T  A  L  K  S")
+    print(Fore.RESET)
+    
+
 def set_api_key(val):
     try:
         openai.api_key = val
@@ -36,7 +47,8 @@ def set_api_key(val):
         raise argparse.ArgumentTypeError(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
 
 def chat(args):
-    print(pyfiglet.figlet_format("ChatCMD",font="speed",justify="center"))
+    #print(Fore.YELLOW+pyfiglet.figlet_format("ChatCMD",justify="center")+Fore.RESET)
+    print_title()
     while True:
         prompt = input("\nPROMPT> ")
 
