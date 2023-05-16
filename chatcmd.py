@@ -4,7 +4,6 @@ import openai
 import time
 import os
 import sys
-#import pyfiglet
 from colorama import Fore, init, Style
 import argparse
 
@@ -12,8 +11,8 @@ init()
 
 def main():
     parser = argparse.ArgumentParser(prog="ChatCMD",conflict_handler='resolve',
-                                     epilog="REPO:")
-    parser.add_argument('-ap','--api_key',required=True,type=set_api_key,help="Enter API KEY")
+                                     epilog="REPO: https://github.com/antonioam82/ChatPy")
+    parser.add_argument('-ap','--api_key',required=True,type=set_api_key,help="Enter ChatGPT API KEY")
     parser.add_argument('-mt','--max_tokens',type=int,default=2048,help="Enter max tokens")
     parser.add_argument('-eng','--engine',type=str,default="text-davinci-003",help="Model to use")
 
@@ -28,6 +27,16 @@ def typewriter(message):
         sys.stdout.flush()
         time.sleep(0.01)
     print(Fore.RESET)
+
+def get_completion(args,p):
+    try:
+        completion = openai.Completion.create(engine=args.engine,
+                                              prompt = p,
+                                              max_tokens=args.max_tokens)
+        return str(completion.choices[0].text)
+    except Exception as e:
+        print(Fore.RED+Style.BRIGHT+str(e)+Fore.RESET+Style.RESET_ALL)
+        
 
 def save_response(r):
     try:
@@ -56,7 +65,6 @@ def set_api_key(val):
 
 def chat(args):
     response = ""
-    #print(Fore.YELLOW+pyfiglet.figlet_format("ChatCMD",justify="center")+Fore.RESET)
     print_title()
     while True:
         prompt = input("\nPROMPT> ")
@@ -72,10 +80,7 @@ def chat(args):
             pass
 
         else:
-            completion = openai.Completion.create(engine=args.engine,
-                                              prompt = prompt,
-                                              max_tokens=args.max_tokens)
-            response = str(completion.choices[0].text)
+            response = get_completion(args,prompt)
             typewriter(response)
 
 if __name__=='__main__':
