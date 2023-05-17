@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import time
-from colorama import Fore, init
+from colorama import Fore, Style, init
 import openai
 
 init()
@@ -11,7 +11,7 @@ def setup_openai(api_key, engine):
     openai.api_key = api_key
     model_lst = openai.Model.list()
     if engine not in [i['id'] for i in model_lst['data']]:
-        raise ValueError(Fore.RED + f"BAD MODEL SELECTED: {engine} not valid" + Fore.RESET)
+        raise ValueError(Fore.RED + Style.BRIGHT +f"BAD MODEL SELECTED: {engine} not valid" + Fore.RESET + Style.RESET_ALL)
     return engine
 
 def typewriter(message):
@@ -26,7 +26,7 @@ def get_completion(engine, prompt, max_tokens):
         completion = openai.Completion.create(engine=engine, prompt=prompt, max_tokens=max_tokens)
         return str(completion.choices[0].text)
     except Exception as e:
-        print(Fore.RED + str(e) + Fore.RESET)
+        print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
 def save_response(response):
     try:
@@ -58,7 +58,7 @@ def chat(api_key, engine, max_tokens):
             if response:
                 save_response(response)
             else:
-                print(Fore.RED + "No response to print" + Fore.RESET)
+                print(Fore.RED + Style.BRIGHT + "No response to print" + Fore.RESET + Style.RESET_ALL)
         elif prompt == "":
             pass
         else:
@@ -77,7 +77,7 @@ def main():
     try:
         engine = setup_openai(args.api_key, args.engine)
     except Exception as e:
-        parser.error(Fore.RED + str(e) + Fore.RESET)
+        parser.error(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
     chat(args.api_key, engine, args.max_tokens)
 
