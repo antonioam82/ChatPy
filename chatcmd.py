@@ -28,11 +28,11 @@ def get_completion(engine, prompt, max_tokens):
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
-def save_response(response):
+def save_response(file,response):
     try:
-        with open("response.txt", "w") as document:
+        with open(file, "w") as document:
             document.write(response)
-        print(Fore.YELLOW + "Saved document as 'response.txt'." + Fore.RESET)
+        print(Fore.YELLOW + f"Saved document as '{file}'." + Fore.RESET)
     except Exception as e:
         print(Fore.RED + str(e) + Fore.RESET)
 
@@ -54,9 +54,9 @@ def chat(api_key, engine, max_tokens):
 
         if prompt == "END":
             break
-        elif prompt == "PRINT":
+        elif prompt[0:5] == "PRINT":
             if response:
-                save_response(response)
+                save_response(prompt[6:len(prompt)],response)
             else:
                 print(Fore.RED + Style.BRIGHT + "No response to print" + Fore.RESET + Style.RESET_ALL)
         elif prompt == "":
@@ -83,4 +83,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
