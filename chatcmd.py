@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import time
+import pyperclip
 from colorama import Fore, Style, init
 import openai
 
@@ -13,6 +14,13 @@ def setup_openai(api_key, engine):
     if engine not in [i['id'] for i in model_lst['data']]:
         raise ValueError(Fore.RED + Style.BRIGHT +f"BAD MODEL SELECTED: {engine} not valid" + Fore.RESET + Style.RESET_ALL)
     return engine
+
+def copy(response):
+    try:
+        pyperclip.copy(response)
+        print(Fore.YELLOW +"COPIED TO CLIPBOARD" + Fore.RESET)
+    except Exception as e:
+        print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
 def typewriter(message):
     print(Fore.GREEN)
@@ -31,7 +39,7 @@ def get_completion(engine, prompt, max_tokens):
 def save_response(file,response):
     try:
         with open(file, "w") as document:
-            document.write(response)
+            document.write(response.split('\n',1)[1])
         print(Fore.YELLOW + f"Saved document as '{file}'." + Fore.RESET)
     except Exception as e:
         print(Fore.RED + str(e) + Fore.RESET)
@@ -54,6 +62,11 @@ def chat(api_key, engine, max_tokens):
 
         if prompt == "END":
             break
+        elif prompt == "COPY":
+            if response:
+                copy(response)
+            else:
+                print(Fore.RED + Style.BRIGHT + "No response to copy" + Fore.RESET + Style.RESET_ALL)
         elif prompt[0:5] == "PRINT":
             if response:
                 save_response(prompt[6:len(prompt)],response)
