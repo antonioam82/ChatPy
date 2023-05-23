@@ -36,6 +36,16 @@ def get_completion(engine, prompt, max_tokens):
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
+def commands():
+    print(Fore.YELLOW)
+    print("                           --------------------------COMMAND LIST--------------------------")
+    print("                           COPY                                          copy last response")
+    print("                           PRINT <file name>                        save response in a file")
+    print("                           HELP                                            see command list")
+    print("                           END                                                 exit program")
+    print("                           <prompt>                               make question to the chat")
+    print("                           ----------------------------------------------------------------"+Fore.RESET)
+
 def save_response(file,response):
     try:
         with open(file, "w") as document:
@@ -53,11 +63,14 @@ def print_title():
     print("                                      \____|_| |_|\__,_|\__|\____|_|  |_|____/ ")
     print("                                       C  O  M  P  U  T  E  R    T  A  L  K  S")
     print(Fore.RESET)
+    print("                                           Type 'HELP' to see command list")
 
 def chat(api_key, engine, max_tokens):
     response = ""
     print_title()
+
     while True:
+
         prompt = input("\nPROMPT> ")
 
         if prompt == "END":
@@ -72,6 +85,8 @@ def chat(api_key, engine, max_tokens):
                 save_response(prompt[6:len(prompt)],response)
             else:
                 print(Fore.RED + Style.BRIGHT + "No response to print" + Fore.RESET + Style.RESET_ALL)
+        elif prompt == "HELP":
+            commands()
         elif prompt == "":
             pass
         else:
